@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.congrat.model.Person;
 import ru.congrat.services.EmailServiceImpl;
+import ru.congrat.services.ExcelServiceImpl;
 import ru.congrat.services.HtmlServiceImpl;
 
 @Component
@@ -21,6 +22,8 @@ public class ScheduledTasks {
     EmailServiceImpl emailService;
     @Autowired
     HtmlServiceImpl htmlService;
+    @Autowired
+    ExcelServiceImpl excelService;
 
     //private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
@@ -32,6 +35,8 @@ public class ScheduledTasks {
         System.out.println("The time is now {}: " + dateFormat.format(new Date()));
         List<Person> list = personForBirthday.personFilter();
         System.out.println(list);
+
+        excelService.CreateTable(list);
 
         List<String> famousEvent = htmlService.getFamousEvent("http://www.calend.ru/events", 18, 6, "a");
         List<String> randomFamousEvent = htmlService.getRandomFamousEvent(famousEvent,3);

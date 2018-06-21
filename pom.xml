@@ -72,6 +72,14 @@
             <version>1.10.2</version>
         </dependency>
 
+        <!-- dependency used for XLS older file format
+     (added for information) -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+
     </dependencies>
 
     <build>
