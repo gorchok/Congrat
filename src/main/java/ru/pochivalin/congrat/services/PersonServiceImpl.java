@@ -13,8 +13,11 @@ import java.util.List;
 @Service
 public class PersonServiceImpl implements PersonService{
 
-    @Autowired
-    PersonRepository personRepository;
+    private final PersonRepository personRepository;
+
+    public PersonServiceImpl(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
 
     @Override
     public List<Person> findAll() {
