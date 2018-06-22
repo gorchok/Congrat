@@ -15,16 +15,13 @@ import java.util.Random;
 @Component
 public class HtmlServiceImpl {
 
-    private Document doc;
-
-
     public List<String> getFamousEvent(String url,int day, int month, String tag)
     {
         List<String> famousEvent = new ArrayList<String>();
         try {
             //doc = Jsoup.connect("http://www.calend.ru/events/6-18/").get();
             String URL = url + "/" + month + "-" + day + "/";
-            doc = Jsoup.connect(URL).get();
+            Document doc = Jsoup.connect(URL).get();
 
             //Elements ee = doc.getElementsByClass("famous-date plusyear");
             //Elements eee = ee.html("title");
