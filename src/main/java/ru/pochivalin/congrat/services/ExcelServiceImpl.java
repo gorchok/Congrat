@@ -1,11 +1,14 @@
 package ru.pochivalin.congrat.services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Component;
 import ru.pochivalin.congrat.model.Person;
 
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -14,11 +17,12 @@ import java.util.List;
 public class ExcelServiceImpl {
 
     private static String[] columns = { "Имя", "Фамилия", "$"};
+    static final Logger excelLogger = LogManager.getLogger(ExcelServiceImpl.class);
 
-    public void CreateTable(List<Person> list) throws IOException {
+    public void CreateTable(List<Person> list) {
 
         Workbook workbook = new HSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Contacts");
+        Sheet sheet = workbook.createSheet("answerpro");
 
         Font headerFont = workbook.createFont();
         headerFont.setBold(true);
@@ -37,7 +41,7 @@ public class ExcelServiceImpl {
             cell.setCellStyle(headerCellStyle);
         }
 
-        // Create Other rows and cells with contacts data
+        // Create Other rows and cells with data
         int rowNum = 1;
 
         for (Person p : list) {
@@ -53,10 +57,18 @@ public class ExcelServiceImpl {
             sheet.autoSizeColumn(i);
         }
 
-        // Write the output to a file
-        FileOutputStream fileOut = new FileOutputStream("money.xls");
-        workbook.write(fileOut);
-        fileOut.close();
+        try (FileOutputStream fileOut = new FileOutputStream("money.xls")) {
+            excelLogger.info("save file");
+            workbook.write(fileOut);
+            fileOut.close();
+        }
+        catch(FileNotFoundException e){
+            excelLogger.error(e.getMessage());
+        }
+        catch(IOException ex){
+            excelLogger.error(ex.getMessage());
+        }
+
     }
 
 }
