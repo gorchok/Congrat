@@ -15,7 +15,7 @@ public class PersonForBirthday {
     @Autowired
     PersonService personService;
 
-    public List<Person> personFilter() throws Exception {
+    public List<Person> personFilter() {
         List<Person> personListBirthday = new ArrayList<Person>();
         try {
             List<Person> listPerson = personService.findAll();
