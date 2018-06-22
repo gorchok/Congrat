@@ -1,4 +1,4 @@
-package ru.congrat.model;
+package ru.pochivalin.congrat.model;
 
 import lombok.Data;
 import javax.persistence.*;

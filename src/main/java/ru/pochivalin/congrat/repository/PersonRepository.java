@@ -1,8 +1,9 @@
-package ru.congrat.repository;
+package ru.pochivalin.congrat.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.congrat.model.Person;
+import ru.pochivalin.congrat.model.Person;
+
 
 import java.util.Date;
 import java.util.List;

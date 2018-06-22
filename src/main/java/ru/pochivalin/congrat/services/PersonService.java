@@ -1,7 +1,6 @@
-package ru.congrat.services;
+package ru.pochivalin.congrat.services;
 
-import ru.congrat.model.Person;
-
+import ru.pochivalin.congrat.model.Person;
 import java.util.Date;
 import java.util.List;
 

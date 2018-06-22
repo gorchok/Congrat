@@ -1,9 +1,10 @@
-package ru.congrat.services;
+package ru.pochivalin.congrat.services;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Component;
-import ru.congrat.model.Person;
+import ru.pochivalin.congrat.model.Person;
+
 
 import java.io.FileOutputStream;
 import java.io.IOException;

@@ -1,15 +1,10 @@
-package ru.congrat;
+package ru.pochivalin.congrat;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import ru.congrat.model.Person;
-import ru.congrat.services.PersonService;
-
-import java.util.List;
 
 @PropertySource("classpath:templates/application.properties")
 @SpringBootApplication

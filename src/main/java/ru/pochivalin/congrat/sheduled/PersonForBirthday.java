@@ -1,4 +1,4 @@
-package ru.congrat.sheduled;
+package ru.pochivalin.congrat.sheduled;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.congrat.model.Person;
-import ru.congrat.services.PersonService;
+import ru.pochivalin.congrat.model.Person;
+import ru.pochivalin.congrat.services.PersonService;
 
 @Component
 public class PersonForBirthday {

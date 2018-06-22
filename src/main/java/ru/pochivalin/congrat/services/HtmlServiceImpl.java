@@ -1,4 +1,4 @@
-package ru.congrat.services;
+package ru.pochivalin.congrat.services;
 
 
 import org.jsoup.Jsoup;
@@ -29,18 +29,17 @@ public class HtmlServiceImpl {
             //Elements ee = doc.getElementsByClass("famous-date plusyear");
             //Elements eee = ee.html("title");
 
-            //Element el = doc.getElementById("content");
-            Elements child = doc.getElementsByTag(tag);
+            Elements clazz = doc.getElementsByClass("famous-date plusyear");
+            Elements tagA = clazz.select("a");
+            //Elements child = el.getElementsByTag(tag);
             //List<String> list = new ArrayList<String>();
             //List<String> list2 = new ArrayList<String>();
-            for (Element q:child){
+            for (Element a:tagA){
                 //list2.add(q.attr("title"));
-            if((q.toString().contains("/holidays/") && q.toString().contains("день"))
-             ||(q.toString().contains("/holidays/") && q.toString().contains("День")) ){
-                String str = q.text();
-                famousEvent.add(str);
-            }
-                System.out.println(q);
+                String str = a.attr("title").toString();
+                if(str.length()>0){
+                    famousEvent.add(str);
+                }
             }
            // Elements ch = el.children();
             //doc.select("p").forEach(System.out::println);
