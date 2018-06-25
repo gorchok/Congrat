@@ -16,10 +16,11 @@ import java.util.List;
 @Component
 public class ExcelServiceImpl {
 
-    private static String[] columns = { "Имя", "Фамилия", "$"};
+    private static String[] columns = {"Фамилия","Имя", "$"};
+
     static final Logger excelLogger = LogManager.getLogger(ExcelServiceImpl.class);
 
-    public void CreateTable(List<Person> list) {
+    public void CreateTable(List<Person> list, String subject) {
 
         Workbook workbook = new HSSFWorkbook();
         Sheet sheet = workbook.createSheet("answerpro");
@@ -32,17 +33,26 @@ public class ExcelServiceImpl {
         CellStyle headerCellStyle = workbook.createCellStyle();
         headerCellStyle.setFont(headerFont);
 
-        // Create a Row
-        Row headerRow = sheet.createRow(0);
+        Row headerRow0 = sheet.createRow(0);
+        //String[] head = {person.getDate().toString(),person.getLastName(),person.getFirsName()};
 
-        for (int i = 0; i < columns.length; i++) {
-            Cell cell = headerRow.createCell(i);
-            cell.setCellValue(columns[i]);
+        for (int i = 0; i < 1; i++) {
+            Cell cell = headerRow0.createCell(0);
+            cell.setCellValue(subject);
+            cell.setCellStyle(headerCellStyle);
+        }
+
+        // Create a Row
+        Row headerRow = sheet.createRow(1);
+
+        for (int j = 0; j < columns.length; j++) {
+            Cell cell = headerRow.createCell(j);
+            cell.setCellValue(columns[j]);
             cell.setCellStyle(headerCellStyle);
         }
 
         // Create Other rows and cells with data
-        int rowNum = 1;
+        int rowNum = 2;
 
         for (Person p : list) {
             Row row = sheet.createRow(rowNum++);
@@ -53,8 +63,8 @@ public class ExcelServiceImpl {
         }
 
         // Resize all columns to fit the content size
-        for (int i = 0; i < columns.length; i++) {
-            sheet.autoSizeColumn(i);
+        for (int k = 0; k < columns.length; k++) {
+            sheet.autoSizeColumn(k);
         }
 
         try (FileOutputStream fileOut = new FileOutputStream("money.xls")) {

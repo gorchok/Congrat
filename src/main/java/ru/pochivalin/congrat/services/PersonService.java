@@ -10,4 +10,14 @@ public interface PersonService {
 
     List<Person> findByDate(Date date);
 
+    int getMonthBirthday(Person person);
+
+    int getDayBirthday(Person person);
+
+    List<String> getAllEmail();
+
+    String monthIntToStr(int num);
+
+    String getBorn(String sex);
+
 }
