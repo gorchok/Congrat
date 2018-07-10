@@ -1,40 +1,45 @@
 package ru.pochivalin.congrat.services;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Cell;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.pochivalin.congrat.model.Person;
-
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+@Log4j2
 @Component
 public class ExcelServiceImpl {
 
-    private static String[] columns = {"Фамилия","Имя", "$"};
+    private static String[] columns = {"Фамилия", "Имя", "$"};
 
-    static final Logger excelLogger = LogManager.getLogger(ExcelServiceImpl.class);
+    @Value("${excel.headerFont.height}")
+    private short headerFontHeight;
 
-    public void CreateTable(List<Person> list, String subject) {
+    public void createTable(final List<Person> list, final String subject) {
 
         Workbook workbook = new HSSFWorkbook();
         Sheet sheet = workbook.createSheet("answerpro");
 
         Font headerFont = workbook.createFont();
         headerFont.setBold(true);
-        headerFont.setFontHeightInPoints((short) 14);
+        headerFont.setFontHeightInPoints(headerFontHeight);
         headerFont.setColor(IndexedColors.RED.getIndex());
 
         CellStyle headerCellStyle = workbook.createCellStyle();
         headerCellStyle.setFont(headerFont);
 
         Row headerRow0 = sheet.createRow(0);
-        //String[] head = {person.getDate().toString(),person.getLastName(),person.getFirsName()};
 
         for (int i = 0; i < 1; i++) {
             Cell cell = headerRow0.createCell(0);
@@ -68,15 +73,13 @@ public class ExcelServiceImpl {
         }
 
         try (FileOutputStream fileOut = new FileOutputStream("money.xls")) {
-            excelLogger.info("save file");
+            log.info("save file");
             workbook.write(fileOut);
             fileOut.close();
-        }
-        catch(FileNotFoundException e){
-            excelLogger.error(e.getMessage());
-        }
-        catch(IOException ex){
-            excelLogger.error(ex.getMessage());
+        } catch (FileNotFoundException e) {
+            log.error(e.getMessage());
+        } catch (IOException ex) {
+            log.error(ex.getMessage());
         }
 
     }

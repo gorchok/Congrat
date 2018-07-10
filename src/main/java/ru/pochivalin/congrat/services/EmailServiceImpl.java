@@ -1,25 +1,30 @@
 package ru.pochivalin.congrat.services;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-
+import org.springframework.stereotype.Service;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 
+@Log4j2
 @Component
-public class EmailServiceImpl {
+@Service
+public class EmailServiceImpl implements EmailService {
 
-    @Autowired
-    public JavaMailSender emailSender;
-    static final Logger emailLogger = LogManager.getLogger(EmailServiceImpl.class);
+    private final JavaMailSender emailSender;
+    //private static final Logger EMAILLOG = LogManager.getLogger(EmailServiceImpl.class);
 
-    public void sendSimpleMessage(String from,String to, String subject, String text) {
+    public EmailServiceImpl(JavaMailSender emailSender) {
+        this.emailSender = emailSender;
+    }
+
+    @Override
+    public void sendSimpleMessage(final String from, final String to,
+                                  final String subject, final String text) {
 
         try {
             SimpleMailMessage message = new SimpleMailMessage();
@@ -28,14 +33,16 @@ public class EmailServiceImpl {
             message.setSubject(subject);
             message.setText(text);
             emailSender.send(message);
-            emailLogger.info("Message send");
-        }
-        catch (Exception e) {
-            emailLogger.error(e.getMessage());
+            log.info("Message send");
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
     }
 
-    public void sendMessageWithAttachment(String from,String to, String subject, String text, String filename,String pathToAttachment) {
+    @Override
+    public void sendMessageWithAttach(final String from, final String to,
+                                      final String subject, final String text,
+                                      final String filename, final String pathToAttachment) {
 
         try {
             MimeMessage message = emailSender.createMimeMessage();
@@ -51,10 +58,9 @@ public class EmailServiceImpl {
             helper.addAttachment(filename, file);
 
             emailSender.send(message);
-            emailLogger.info("Message send with attachment");
-        }
-        catch (Exception e) {
-            emailLogger.error(e.getMessage());
+            log.info("Message send with attachment");
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
     }
 

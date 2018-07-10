@@ -1,29 +1,32 @@
 package ru.pochivalin.congrat.services;
 
-
+import lombok.extern.log4j.Log4j2;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+@Log4j2
 @Component
-public class HtmlServiceImpl {
+public final class HtmlServiceImpl {
 
-    public List<String> getFamousEvent(String url,int day, int month)
-    {
+    @Value("${html.string.size}")
+    private int stringSize;
+
+    public List<String> getFamousEvent(final String url, final int day, final int month) {
         List<String> famousEvent = new ArrayList<String>();
         try {
             //doc = Jsoup.connect("http://www.calend.ru/events/6-18/").get();
             //String URL = url + "/" + month + "-" + day + "/";
-            String URL = url + "/" + month + "/" + day ;
-            Document doc = Jsoup.connect(URL).get();
+            String urlParse = url + "/" + month + "/" + day;
+            Document doc = Jsoup.connect(urlParse).get();
 
             Elements p = doc.select("p");
             List<Integer> countList = new ArrayList<Integer>();
@@ -39,23 +42,21 @@ public class HtmlServiceImpl {
             String[] parts = strMaxEl.split("\\.");
             //List<String> famousEvent = new ArrayList<String>();
             //int k=0;
-            for (int i=0; i<parts.length; i++){
+            for (int i = 0; i < parts.length; i++) {
                 String number = null;
                 String elTrim = parts[i].trim();
 
-                if(elTrim.length() >= 4) {
-                    number = elTrim.substring(0, 4);
+                if (elTrim.length() >= stringSize) {
+                    number = elTrim.substring(0, stringSize);
                 }
 
-                if(elTrim.length() < 4) {
-                    number=elTrim.substring(0,elTrim.length()-1);
+                if (elTrim.length() < stringSize) {
+                    number = elTrim.substring(0, elTrim.length() - 1);
                 }
 
                 if (checkString(number)) {
                         famousEvent.add(elTrim + ". ");
-                        //k++;
-                }
-                else {
+                } else {
                         int oldIndex = famousEvent.size() - 1;
                         famousEvent.set(oldIndex, famousEvent.get(oldIndex).concat(elTrim).concat("."));
                 }
@@ -80,12 +81,12 @@ public class HtmlServiceImpl {
            // Elements ch = el.children();
             //doc.select("p").forEach(System.out::println);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return famousEvent;
     }
 
-   public List<String> getRandomFamousEvent (List<String> list, int num) {
+   public List<String> getRandomFamousEvent(final List<String> list, final int num) {
        Random rand = new Random();
        List<String> randomFamousEvent = new ArrayList<String>();
 
@@ -100,7 +101,7 @@ public class HtmlServiceImpl {
        return randomFamousEvent;
    }
 
-    public boolean checkString(String string) {
+    public boolean checkString(final String string) {
         try {
             Integer.parseInt(string);
         } catch (Exception e) {

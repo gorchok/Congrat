@@ -1,11 +1,20 @@
 package ru.pochivalin.congrat.model;
 
 import lombok.Data;
-import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import java.io.Serializable;
 import java.util.Date;
 
-@Data //конструктор без аргументов, со всеми аргументами, все гетеры и сетеры
+@Data //constructor without arguments, with arguments, all getters, all setters
 @Entity
 @Table(name = "person")
 @Access(AccessType.FIELD)

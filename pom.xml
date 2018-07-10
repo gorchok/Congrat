@@ -59,6 +59,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.icegreen</groupId>
+            <artifactId>greenmail</artifactId>
+            <version>1.5.5</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,8 +78,7 @@
             <version>1.10.2</version>
         </dependency>
 
-        <!-- dependency used for XLS older file format
-     (added for information) -->
+        <!-- dependency used for XLS older file format-->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -92,6 +97,13 @@
             <version>2.4.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.jvnet.mock-javamail</groupId>
+            <artifactId>mock-javamail</artifactId>
+            <version>1.9</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -100,6 +112,32 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.0.0</version>
+
+                <!--executions>
+                    <execution>
+                        <id>checkstyle</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <failOnViolation>true</failOnViolation>
+                        </configuration>
+                    </execution>
+                </executions-->
+
+                <configuration>
+                    <suppressionsLocation>src\main\resources\checkstyle-suppressions.xml</suppressionsLocation>
+                    <!--configLocation>src\main\resources\checkstyle-checker.xml</configLocation-->
+                    <consoleOutput>true</consoleOutput>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

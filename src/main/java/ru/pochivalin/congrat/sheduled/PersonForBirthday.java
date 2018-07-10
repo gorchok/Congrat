@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.pochivalin.congrat.model.Person;
 import ru.pochivalin.congrat.services.PersonService;
@@ -12,8 +13,11 @@ import ru.pochivalin.congrat.services.PersonService;
 @Component
 public class PersonForBirthday {
 
+    @Value("${day.delay}")
+    private int dayDelay;
+
     @Autowired
-    PersonService personService;
+    private PersonService personService;
 
     public List<Person> personFilter() {
         List<Person> personListBirthday = new ArrayList<Person>();
@@ -36,11 +40,9 @@ public class PersonForBirthday {
                     personListBirthday.add(p);
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
         return personListBirthday;
     }
 
@@ -54,31 +56,27 @@ public class PersonForBirthday {
             for (Person p : listPerson) {
                 int pMonth = personService.getMonthBirthday(p);
                 int pDay = personService.getDayBirthday(p);
-                int deltaMonth = pMonth-month;
-                int deltaDay = pDay-day;
-                if(deltaMonth==0 && deltaDay==3) {
+                int deltaMonth = pMonth - month;
+                int deltaDay = pDay - day;
+                if (deltaMonth == 0 && deltaDay == dayDelay) {
                     personListBirthday.add(p);
                 }
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return personListBirthday;
     }
 
-    public List<Person> personForExcelMoney(Person person) {
+    public List<Person> personForExcelMoney(final Person person) {
        //List<Person> listBirthday = personForExcelBirthday();
        List<Person> listAll = personService.findAll();
        List<Person> rezult = new ArrayList<Person>();
        for (Person all : listAll) {
-           if(!all.equals(person)) {
+           if (!all.equals(person)) {
                    rezult.add(all);
            }
        }
-
        return rezult;
-
     }
-
 }
